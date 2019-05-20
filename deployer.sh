@@ -5,7 +5,7 @@ file_config () {
 	echo "INFO: Copying external scripts to zabbix folder"
 	sudo cp -r /home/ubuntu/repo_clone/$1/external_scripts/ /etc/zabbix/
 	echo "INFO: Changing permissions"
-	sudo chown zabbix:root /etc/zabbix/external_scripts/
+	sudo chown -R zabbix:root /etc/zabbix/external_scripts/
 	for file in `ls /etc/zabbix/external_scripts/`; do
 		if [[ $file == *.sh ]]; then
 			sudo chmod 0770 /etc/zabbix/external_scripts/$file
