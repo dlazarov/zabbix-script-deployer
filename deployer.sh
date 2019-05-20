@@ -2,25 +2,27 @@
 
 # Config function for controllers
 file_config () {
+	echo "INFO: Copying external scripts to zabbix folder"
 	sudo cp -r /home/ubuntu/repo_clone/$1/external_scripts/ /etc/zabbix/
+	echo "INFO: Changing permissions"
 	sudo chown zabbix:root /etc/zabbix/external_scripts/
 	for file in `ls /etc/zabbix/external_scripts/`; do
 		if [[ $file == *.sh ]]; then
 			sudo chmod 0770 /etc/zabbix/external_scripts/$file
 		fi
 	done
-
+	echo "INFO: Copying user parameters"
 	sudo cp /home/ubuntu/repo_clone/$1/custom_user_parameters.conf /etc/zabbix/zabbix_agentd.d/
 }
 
 hostname=`hostname`
 
 case $hostname in
-	[*octrl*])
+	[*ctrl*])
 		# Run script that copies all files from controller_data folder
 		file_config "controller_data"
 	;;
-	[*ocpu*])
+	[*compute*])
 		# Run script that copies all files from compute_data folder
 	;;
 	*)
