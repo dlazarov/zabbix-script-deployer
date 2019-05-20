@@ -20,12 +20,12 @@ hostname=`hostname`
 echo "DEBUG: Hostname is $hostname"
 
 case $hostname in
-	[*ctrl*])
+	*ctrl*)
 		echo "DEBUG: Executing controller case for $hostname"
 		# Run script that copies all files from controller_data folder
 		file_config "controller_data"
 	;;
-	[*compute*])
+	*compute*)
 		echo "DEBUG: Executing compute case for $hostname"
 		# Run script that copies all files from compute_data folder
 		file_config "compute_data"
