@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Clone repo
-git clone git@github.com:dlazarov/zabbix-script-deployer.git ~/juju/monitoring/repo_clone
+git clone -b office-env git@github.com:dlazarov/zabbix-script-deployer.git ~/juju/monitoring/repo_clone
 
 # Push repo to all machines and deploy scripts
 for machine_id in `juju machines | grep bionic | awk '{print $1}' | grep -v lxd`; do
