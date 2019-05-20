@@ -22,6 +22,7 @@ case $hostname in
 	;;
 	[*ocpu*])
 		# Run script that copies all files from compute_data folder
+		file_config "compute_data"
 	;;
 	*)
 		echo "INFO: No zabbix scripts to be applied for host $hostname"
