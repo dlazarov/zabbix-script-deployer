@@ -25,7 +25,7 @@ case $hostname in
 		# Run script that copies all files from controller_data folder
 		file_config "controller_data"
 	;;
-	*compute*)
+	*compute*|*ocpu*)
 		echo "DEBUG: Executing compute case for $hostname"
 		# Run script that copies all files from compute_data folder
 		file_config "compute_data"
