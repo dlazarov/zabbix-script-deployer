@@ -16,7 +16,7 @@ if [ $res -eq 0 ]; then
                 if [ $res -ne 0 ]; then
                         break
                 fi
-                let i=i+1
+                let i++
         done
 fi
 # Rename temporary file created
