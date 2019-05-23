@@ -66,8 +66,16 @@ else
 				        fi
 					done
 				fi
-				# Run command for provided number of compute nodes
 			fi
+		;;
+		--id)
+			if [ -z "$2" ] || [ "$2" -le 0 ]; then
+				echo "Invalid number of nodes. The value must be a positive integer. Use -h option for usage."
+				exit 1
+			else
+				echo "Applying zabbix scripts on machine $2"
+				staging $2
+			fi				
 		;;
 		-h|--help)
 			echo "Usage: ./script-staging.sh [OPTION] [VALUE]"
