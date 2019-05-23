@@ -35,6 +35,7 @@ case $hostname in
 	;;
 esac
 # Restart zabbix-agent.service
+echo "INFO: Restarting zabbix agent on $hostname"
 sudo systemctl restart zabbix-agent
 
 
