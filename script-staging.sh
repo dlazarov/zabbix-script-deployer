@@ -70,7 +70,7 @@ else
 		;;
 		--id)
 			if [ -z "$2" ] || [ "$2" -le 0 ]; then
-				echo "Invalid number of nodes. The value must be a positive integer. Use -h option for usage."
+				echo "Invalid id provided. The value must be a positive integer. Use -h option for usage."
 				exit 1
 			else
 				echo "Applying zabbix scripts on machine $2"
@@ -83,6 +83,7 @@ else
 			echo "If no option is used, the script will run for all the controller and compute nodes."
 			echo "  --compute [VALUE]     Runs the script for the given number of compute nodes."
 			echo "  --controller [VALUE]  Runs the script for the given number of controller nodes."
+			echo "  --id [VALUE]		  Runs the script on a particular machine."
 			echo "  -h, --help            Display this help and exit."
 			echo
 			exit 1
