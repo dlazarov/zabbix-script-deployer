@@ -24,6 +24,19 @@ user_in_group () {
 	fi
 }
 
+zabbix_home_dir () {
+	zabbix_dir=`echo ~zabbix`
+
+	if [ -d "$zabbix_dir" ]; then
+        echo "INFO: Zabbix home directory exists"
+	else
+        echo "INFO: Creating zabbix home directory at $zabbix_dir"
+        sudo mkdir $zabbix_dir
+        echo "INFO: Changing directory ownership for $zabbix_dir"
+        sudo chown zabbix:zabbix $zabbix_dir
+	fi
+}
+
 hostname=`hostname`
 
 echo "DEBUG: Hostname is $hostname"
@@ -32,8 +45,9 @@ case $hostname in
 	*ctrl*)
 		echo "DEBUG: Executing controller case for $hostname"
 		# Run script that copies all files from controller_data folder
-		file_config "controller_data"
 		user_in_group "zabbix" "lxd"
+		zabbix_home_dir
+		file_config "controller_data"
 	;;
 	*compute*|*ocpu*)
 		echo "DEBUG: Executing compute case for $hostname"
