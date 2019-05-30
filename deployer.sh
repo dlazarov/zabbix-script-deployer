@@ -15,6 +15,15 @@ file_config () {
 	sudo cp /home/ubuntu/repo_clone/$1/custom_user_parameters.conf /etc/zabbix/zabbix_agentd.d/
 }
 
+user_in_group () {
+	if id -nG "$1" | grep -Fqw "$2"; then
+        echo "INFO: User $1 is already a member of the $2 group"
+	else
+        echo "INFO: Adding user $1 to $2 group"
+        sudo usermod -aG lxd zabbix
+	fi
+}
+
 hostname=`hostname`
 
 echo "DEBUG: Hostname is $hostname"
@@ -24,6 +33,7 @@ case $hostname in
 		echo "DEBUG: Executing controller case for $hostname"
 		# Run script that copies all files from controller_data folder
 		file_config "controller_data"
+		user_in_group "zabbix" "lxd"
 	;;
 	*compute*|*ocpu*)
 		echo "DEBUG: Executing compute case for $hostname"
