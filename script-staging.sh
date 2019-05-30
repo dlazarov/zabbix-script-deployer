@@ -7,7 +7,7 @@ function staging () {
 }
 
 # Clone repo
-git clone git@github.com:dlazarov/zabbix-script-deployer.git ~/juju/monitoring/repo_clone
+git clone -b lxd-monitoring git@github.com:dlazarov/zabbix-script-deployer.git ~/juju/monitoring/repo_clone
 
 if [ $# -eq 0 ]; then
 	read -p "No arguments were supplied. This will apply the changes to all the controller and compute nodes. Are you sure you want to continue? (y/n). Use -h option for usage. " -n 1 -r
