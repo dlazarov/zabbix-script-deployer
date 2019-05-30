@@ -20,7 +20,7 @@ user_in_group () {
         echo "INFO: User $1 is already a member of the $2 group"
 	else
         echo "INFO: Adding user $1 to $2 group"
-        sudo usermod -aG lxd zabbix
+        sudo usermod -aG $2 $1
 	fi
 }
 
@@ -46,7 +46,7 @@ case $hostname in
 esac
 # Restart zabbix-agent.service
 echo "INFO: Restarting zabbix agent on $hostname"
-sudo systemctl restart zabbix-agent
+sudo systemctl restart zabbix-agent.service
 
 
 # Cleanup
