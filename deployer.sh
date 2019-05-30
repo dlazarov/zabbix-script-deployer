@@ -17,9 +17,9 @@ file_config () {
 
 user_in_group () {
 	if id -nG "$1" | grep -Fqw "$2"; then
-        echo "INFO: User $1 is already a member of the $2 group."
+        echo "INFO: User $1 is already a member of the $2 group"
 	else
-        echo "INFO: Adding user $1 to $2 group."
+        echo "INFO: Adding user $1 to $2 group"
         sudo usermod -aG lxd zabbix
 	fi
 }
