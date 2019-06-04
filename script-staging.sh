@@ -25,28 +25,29 @@ function stagingScope () {
 	if [ "$machine_type" = false ]; then
 		# Running staging once using $scope as ID
 		if [ -z "$scope" ]; then
-			echo "You must provide a valid machine id when using the -i|--id option. Use -h option for usage help"
+			echo "ERROR: You must provide a valid machine id when using the -i|--id option. Use -h option for usage help"
 		else
-			echo "Applying scripts to machine $scope"
+			echo "INFO: Applying scripts to machine $scope"
 			staging $branch $scope $config
+		fi
 	else
 		# Running staging for given machine type
 		if [ -z "$scope" ]; then
 			# Applying script to both compute and controller nodes
-			echo "Scripts will be applied to $machine_type_name nodes"
+			echo "INFO: Scripts will be applied to $machine_type_name nodes"
 			for machine_id in `juju status | sed -n '/Unit.*Workload/,/Machine.*State/p' | awk '{printf "%s %s \n",$1,$4}' | tail -n +2 | head -n -2 | grep -E '$machine_type' | awk '{print $2}'`; do
-				echo "Applying scripts to machine $scope"
+				echo "INFO: Applying scripts to machine $scope"
 				staging $branch $machine_id $config
 			done
 		else
-			echo "Scripts will be applied to $scope $machine_type_name nodes"
+			echo "INFO: Scripts will be applied to $scope $machine_type_name nodes"
 			count=0
 			for machine_id in `juju status | sed -n '/Unit.*Workload/,/Machine.*State/p' | awk '{printf "%s %s \n",$1,$4}' | tail -n +2 | head -n -2 | grep -E '$machine_type' | awk '{print $2}'`; do
-				echo "Applying scripts to machine $scope"
+				echo "INFO: Applying scripts to machine $scope"
 				staging $branch $machine_id $config
 				let count=count+1
 				if [ "$count" -eq "$scope" ]; then
-		        	echo "Scripts applied to $count $machine_type_name nodes"
+		        	echo "INFO: Scripts applied to $count $machine_type_name nodes"
 		        	exit 2
 		        fi
 			done
@@ -94,7 +95,7 @@ while (( "$#" )); do
 		-i|--id)
 			re='^[0-9]+$'
 			if ! [[ $2 =~ $re ]] ; then
-			   echo "Invalid ID. Use -h option for usage help"
+			   echo "ERROR: Invalid ID. Use -h option for usage help"
 			   exit 1
 			else
 				scope=$2
@@ -116,7 +117,7 @@ while (( "$#" )); do
 		-h|--help)
 			echo "Usage: ./script-staging.sh [OPTION] [VALUE]"
 			echo
-			echo "  --a | --all           The script will run for all the controller and compute nodes."
+			echo "  -a | --all           The script will run for all the controller and compute nodes."
 			echo "  --compute [VALUE]     Runs the script for the given number of compute nodes. If a value is not provided, it will run for all compute nodes."
 			echo "  --controller [VALUE]  Runs the script for the given number of controller nodes. If a value is not provided, it will run for all controller nodes."
 			echo "  -b | --branch [VALUE] Applies scripts from the given branch."
