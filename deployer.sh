@@ -39,7 +39,7 @@ case $hostname in
 	*compute*|*ocpu*)
 		echo "DEBUG: Executing compute case for $hostname"
 		# Run script that copies all files from compute_data folder
-		file_config "compute_data"
+		file_config "compute_data" $modify_config
 	;;
 	*)
 		echo "INFO: No zabbix scripts to be applied for host $hostname"
