@@ -19,7 +19,7 @@ file_config () {
 	echo "INFO: Copying user parameters"
 	sudo cp /home/ubuntu/repo_clone/$host_type/custom_user_parameters.conf /etc/zabbix/zabbix_agentd.d/
 	
-	if [ "$modify_config" = true ]; then
+	if [ "$modify_config" == "true" ]; then
 		echo "INFO: Copying config file"
 		sudo cp /home/ubuntu/repo_clone/$host_type/zabbix_agentd.conf /etc/zabbix/
 	fi
