@@ -25,6 +25,28 @@ file_config () {
 	fi
 }
 
+user_in_group () {
+	if id -nG "$1" | grep -Fqw "$2"; then
+        echo "INFO: User $1 is already a member of the $2 group"
+	else
+        echo "INFO: Adding user $1 to $2 group"
+        sudo usermod -aG $2 $1
+	fi
+}
+
+zabbix_home_dir () {
+	zabbix_dir=`echo ~zabbix`
+
+	if [ -d "$zabbix_dir" ]; then
+        echo "INFO: Zabbix home directory exists"
+	else
+        echo "INFO: Creating zabbix home directory at $zabbix_dir"
+        sudo mkdir $zabbix_dir
+        echo "INFO: Changing directory ownership for $zabbix_dir"
+        sudo chown zabbix:zabbix $zabbix_dir
+	fi
+}
+
 hostname=`hostname`
 modify_config=$1
 
@@ -34,6 +56,8 @@ case $hostname in
 	*ctrl*)
 		echo "DEBUG: Executing controller case for $hostname"
 		# Run script that copies all files from controller_data folder
+		user_in_group "zabbix" "lxd"
+		zabbix_home_dir
 		file_config "controller_data" $modify_config
 	;;
 	*compute*|*ocpu*)
@@ -47,7 +71,7 @@ case $hostname in
 esac
 # Restart zabbix-agent.service
 echo "INFO: Restarting zabbix agent on $hostname"
-sudo systemctl restart zabbix-agent
+sudo systemctl restart zabbix-agent.service
 
 
 # Cleanup
