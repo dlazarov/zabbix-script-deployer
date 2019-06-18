@@ -42,7 +42,7 @@ case $hostname in
 		file_config "compute_data" $modify_config
 	;;
 	*)
-		echo "INFO: No zabbix scripts to be applied for host $hostname"
+		echo "INFO: No zabbix scripts available for host $hostname"
 	;;
 esac
 # Restart zabbix-agent.service

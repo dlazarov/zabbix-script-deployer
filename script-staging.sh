@@ -6,9 +6,27 @@ function staging () {
     machine_id=$2
     config=$3
 
+    # Generate lxd index
+    addLxdIndex
+
     juju scp -- -r ~/juju/monitoring/repo_clone $machine_id:/home/ubuntu
     juju run --machine $machine_id "chmod +x /home/ubuntu/repo_clone/deployer.sh"
     juju run --machine $machine_id "/home/ubuntu/repo_clone/deployer.sh $config"
+}
+
+function addLxdIndex () {
+    # Get unit name and juju lxd id
+    juju status | sed -n '/Unit.*Workload/,/Machine.*State/p' | grep "/lxd/" | awk '{print $1,$4}' | sed 's/\/.*\s/ /' > /juju/monitoring/repo_clone/juju_unit_names
+
+    # Get juju lxd id and container id
+    juju machines | grep "/lxd/" | awk '{print $1,$4}' > /juju/monitoring/repo_clone/juju_unit_names
+
+    #Join files to create index
+    join  -1 2 -2 1 -o 1.1,2.2 <(sort -k2 -V /juju/monitoring/repo_clone/juju_unit_names) /juju/monitoring/repo_clone/juju_unit_names > /juju/monitoring/repo_clone/controller_data/external_scripts/lxd_index
+
+    # Remove initial files
+    rm /home/ubuntu/repo_clone/juju_unit_names
+    rm /home/ubuntu/repo_clone/juju_unit_names
 }
 
 function stagingScope () {
