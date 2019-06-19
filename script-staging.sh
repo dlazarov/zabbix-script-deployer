@@ -11,7 +11,7 @@ function staging () {
 
     juju scp -- -r ~/juju/monitoring/repo_clone $machine_id:/home/ubuntu
     juju run --machine $machine_id "chmod +x /home/ubuntu/repo_clone/deployer.sh"
-    juju run --machine $machine_id "/home/ubuntu/repo_clone/deployer.sh $config"
+    juju run --machine $machine_id "/home/ubuntu/repo_clone/deployer.sh $config $machine_id"
 }
 
 function addLxdIndex () {
@@ -24,7 +24,7 @@ function addLxdIndex () {
     juju machines | grep "/lxd/" | awk '{print $1,$4}' > ~/juju/monitoring/repo_clone/lxd_id_list
 
     #Join files to create index
-    join  -1 2 -2 1 -o 1.1,2.2 <(sort -k2 -V ~/juju/monitoring/repo_clone/juju_unit_names) ~/juju/monitoring/repo_clone/lxd_id_list > ~/juju/monitoring/repo_clone/controller_data/external_scripts/lxd_index
+    join  -1 2 -2 1 -o 1.1,2.2 <(sort -k2 -V ~/juju/monitoring/repo_clone/juju_unit_names) ~/juju/monitoring/repo_clone/lxd_id_list > ~/juju/monitoring/repo_clone/controller_data/lxd_index
 
     # Remove initial files
     rm ~/juju/monitoring/repo_clone/juju_unit_names
