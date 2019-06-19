@@ -52,6 +52,7 @@ copy_lxd_index () {
 
 	# Check if lxd_index file exists, if not create it
 	if [ ! -f "/etc/zabbix/lxd_index" ]; then
+
 		echo "INFO: Creating lxd_index file"
 		sudo touch /etc/zabbix/lxd_index
 		sudo chown zabbix:root /etc/zabbix/lxd_index
