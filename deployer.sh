@@ -59,7 +59,8 @@ copy_lxd_index () {
 	fi
 	# Overwrite the data with the lxd indexes corresponding to the current node
 	echo "INFO: Updating lxd_index on controller $machine_id"
-	sudo grep "$machine_id-lxd-"  /home/ubuntu/repo_clone/controller_data/lxd_index > /etc/zabbix/external_scripts/lxd_index
+	sudo grep "$machine_id-lxd-"  /home/ubuntu/repo_clone/controller_data/lxd_index > /home/ubuntu/repo_clone/controller_data/lxd_index_$machine_id
+	sudo cp /home/ubuntu/repo_clone/controller_data/lxd_index_$machine_id /etc/zabbix/external_scripts/lxd_index
 
 }
 
