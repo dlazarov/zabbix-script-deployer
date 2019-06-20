@@ -1,15 +1,15 @@
 #!/bin/bash
 hostname=`hostname`
-containers=`lxc list -c ns | awk '/RUNNING/ { print $2}'`
 
 echo "{"
 echo "     \"data\":["
 
 comma=""
-for container in $containers; do
+for line in `cat /etc/zabbix/external_scripts/lxd_index`; do
     echo "     $comma{"
-    echo "           \"{#CONTAINER}\":\"$container\","
-    echo "           \"{#LXDNODE}\":\"$hostname\""
+    echo "           \"{#UNIT_NAME}\":\"`echo $line | awk -F "," '{print $1}'`\","
+    echo "           \"{#CONTAINER}\":\"`echo $line | awk -F "," '{print $2}'`\","
+    echo "           \"{#LXD_NODE}\":\"$hostname\""
     echo "     }"
     comma=","
 done

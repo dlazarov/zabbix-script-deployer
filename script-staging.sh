@@ -18,13 +18,13 @@ function addLxdIndex () {
 
     echo "INFO: Generating LXD index"
     # Get unit name and juju lxd id
-    juju status | sed -n '/Unit.*Workload/,/Machine.*State/p' | grep "/lxd/" | awk '{print $1,$4}' | sed 's/\/.*\s/ /' > ~/juju/monitoring/repo_clone/juju_unit_names
+    juju status | sed -n '/Unit.*Workload/,/Machine.*State/p' | grep "/lxd/" | awk '{print $1,$4}' | sed 's/\*\s/ /' > ~/juju/monitoring/repo_clone/juju_unit_names
 
     # Get juju lxd id and container id
     juju machines | grep "/lxd/" | awk '{print $1,$4}' > ~/juju/monitoring/repo_clone/lxd_id_list
 
     #Join files to create index
-    join  -1 2 -2 1 -o 1.1,2.2 <(sort -k2 -V ~/juju/monitoring/repo_clone/juju_unit_names) ~/juju/monitoring/repo_clone/lxd_id_list > ~/juju/monitoring/repo_clone/controller_data/lxd_index
+    join  -1 2 -2 1 -o 1.1,2.2 <(sort -k2 -V ~/juju/monitoring/repo_clone/juju_unit_names) ~/juju/monitoring/repo_clone/lxd_id_list | sed 's/ /,/'> ~/juju/monitoring/repo_clone/controller_data/lxd_index
 
     # Remove initial files
     rm ~/juju/monitoring/repo_clone/juju_unit_names
