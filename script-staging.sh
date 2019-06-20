@@ -6,15 +6,12 @@ function staging () {
     machine_id=$2
     config=$3
 
-    # Generate lxd index
-    addLxdIndex
-
     juju scp -- -r ~/juju/monitoring/repo_clone $machine_id:/home/ubuntu
     juju run --machine $machine_id "chmod +x /home/ubuntu/repo_clone/deployer.sh"
     juju run --machine $machine_id "/home/ubuntu/repo_clone/deployer.sh $config $machine_id"
 }
 
-function addLxdIndex () {
+function generateLxdIndex () {
 
     echo "INFO: Generating LXD index"
     # Get unit name and juju lxd id
@@ -167,6 +164,8 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     rm -rf ~/juju/monitoring/repo_clone
     git clone -b $branch git@github.com:dlazarov/zabbix-script-deployer.git ~/juju/monitoring/repo_clone
+    # Generate lxd index
+    generateLxdIndex
     stagingScope "$branch" "$scope" "$machine_type" "$config" "$machine_type_name"
 elif [[ $REPLY =~ ^[Nn]$ ]]; then
     exit 1
