@@ -50,13 +50,6 @@ zabbix_home_dir () {
 copy_lxd_index () {
 	machine_id=$1
 
-	# Check if lxd_index file exists, if not create it
-	if [ ! -f "/etc/zabbix/lxd_index" ]; then
-
-		echo "INFO: Creating lxd_index file"
-		sudo touch /etc/zabbix/external_scripts/lxd_index
-		sudo chown zabbix:root /etc/zabbix/external_scripts/lxd_index
-	fi
 	# Overwrite the data with the lxd indexes corresponding to the current node
 	echo "INFO: Updating lxd_index on controller $machine_id"
 	sudo grep "$machine_id-lxd-"  /home/ubuntu/repo_clone/controller_data/lxd_index > /home/ubuntu/repo_clone/controller_data/lxd_index_$machine_id
