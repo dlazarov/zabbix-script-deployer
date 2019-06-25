@@ -62,6 +62,7 @@ create_zabbix_sudoers () {
 		echo "INFO: Zabbix_sudoers file already exists"
 	else
 		sudo cp /home/ubuntu/repo_clone/compute_data/zabbix_sudoers /etc/sudoers.d/zabbix_sudoers
+		sudo chown root:root /etc/sudoers.d/zabbix_sudoers
 		sudo chmod 440 /etc/sudoers.d/zabbix_sudoers
 	fi
 }
