@@ -57,6 +57,15 @@ copy_lxd_index () {
 
 }
 
+create_zabbix_sudoers () {
+	if [ -f /etc/sudoers.d/zabbix_sudoers ]; then
+		echo "INFO: Zabbix_sudoers file already exists"
+	else
+		sudo cp /home/ubuntu/repo_clone/compute_data/zabbix_sudoers /etc/sudoers.d/zabbix_sudoers
+		sudo chmod 440 /etc/sudoers.d/zabbix_sudoers
+	fi
+}
+
 hostname=`hostname`
 modify_config=$1
 machine_id=$2
@@ -75,6 +84,7 @@ case $hostname in
 	*compute*|*ocpu*)
 		echo "DEBUG: Executing compute case for $hostname"
 		# Run script that copies all files from compute_data folder
+		create_zabbix_sudoers
 		file_config "compute_data" $modify_config
 	;;
 	*)

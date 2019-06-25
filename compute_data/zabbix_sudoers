@@ -1,0 +1,5 @@
+Defaults:zabbix !requiretty
+Defaults:zabbix !syslog
+
+
+zabbix ALL = NOPASSWD: /usr/bin/ovs-ofctl
