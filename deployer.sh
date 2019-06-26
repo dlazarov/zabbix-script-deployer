@@ -58,8 +58,8 @@ copy_lxd_index () {
 }
 
 create_zabbix_sudoers () {
-	if [ -f /etc/sudoers.d/zabbix_sudoers ]; then
-		echo "INFO: Zabbix_sudoers file already exists"
+	if sudo [ -f /etc/sudoers.d/zabbix_sudoers ]; then
+		echo "INFO: zabbix_sudoers file already exists"
 	else
 		echo "INFO: Checking zabbix_sudoers with visudo"
 		sudo chown root:root /home/ubuntu/repo_clone/compute_data/zabbix_sudoers && \
