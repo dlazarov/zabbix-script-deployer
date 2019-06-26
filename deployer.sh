@@ -70,6 +70,7 @@ create_zabbix_sudoers () {
 			sudo cp /home/ubuntu/repo_clone/compute_data/zabbix_sudoers /etc/sudoers.d/
 		else
 			echo "ERROR: Visudo check failed."
+		fi
 	fi
 }
 
