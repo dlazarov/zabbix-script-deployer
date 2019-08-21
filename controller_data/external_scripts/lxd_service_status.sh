@@ -1,5 +1,9 @@
 #!/bin/bash
 
-container=`echo $1|awk -F '.' '{print $2}'`
+container_id=$1
 service=$2
-/usr/bin/lxc exec $container -- systemctl is-active $service
+
+active_state=$(lxc exec $container_id -- systemctl show -p ActiveState $service | awk -F "=" '{print $2}')
+sub_state=$(lxc exec $container_id -- systemctl show -p SubState $service | awk -F "=" '{print $2}')
+
+printf "%s,%s" "$active_state" "$sub_state"
