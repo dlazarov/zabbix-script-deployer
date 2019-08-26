@@ -48,9 +48,12 @@ for eth in $interfaces; do
 
         if [[ $dns_addr ]]; then
                 output="${output} ${eth}:${dns_addr}"
-        else
-                echo "ok"
         fi
 
 done
-echo $output
+
+if [[ $output ]]; then
+        echo $output
+else
+        echo "ok"
+fi
